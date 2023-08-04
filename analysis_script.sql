@@ -5,11 +5,14 @@ FROM purchase_order_details;
 
 -- How many units were sold (By Product)
 SELECT 
-	product_id,
-    SUM(quantity) AS quantity,
-    SUM(quantity * unit_cost) AS revenue
-FROM purchase_order_details
-GROUP BY product_id;
+    pd.product_id,
+    p.product_name,
+    SUM(pd.quantity) AS quantity,
+    SUM(pd.quantity * pd.unit_cost) AS revenue
+FROM purchase_order_details pd
+JOIN products p
+	ON p.id = pd.product_id
+GROUP BY pd.product_id;
 
 -- Total revenue
 SELECT 
